@@ -3,7 +3,7 @@
 		<!-- <image class="logo" src="/static/logo.png"></image> -->
 		<view class="text-area">
 			<!-- <text class="title">{{title}}</text> -->
-			<map style="width:750rpx;height:1334rpx;" scale = 16  :markers = 'markers'></map>
+			<map :id="id" style="width:750rpx;height:1334rpx;" :markers = 'markers' @tap="tapMap"></map>
 		</view>
 	</view>
 </template>
@@ -13,11 +13,17 @@
 		data() {
 			return {
 				title: 'Hello',
-				markers: []
+				markers: [],
+				id: '1'
 			}
 		},
 		onLoad() {
 			this.getSite()
+			uni.chooseLocation({
+				success: function(res) {
+					console.log(res, 'res')
+				}
+			})
 		},
 		methods: {
 			// 获取站点
@@ -27,13 +33,17 @@
 					this.markers.push({
 						latitude: item.positioningMsg.lat,
 						longitude: item.positioningMsg.lng,
-						iconPath: '/static/site.png'
+						iconPath: '/static/site.png',
+						title: 'markers66'
 					})
 				});
 				console.log(this.markers, 'this.markers')
 				}).catch(res => {
 				　　// 失败进行的操作
 				})
+			},
+			tapMap(e) {
+				console.log(e, 'e')
 			}
 		}
 	}
